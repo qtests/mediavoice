@@ -1,0 +1,12 @@
+# pip install -r requirements.txt --index-url https://download.pytorch.org/whl/cu132 --force-reinstall --no-cache-dir --extra-index-url https://pypi.org/simple
+
+# setuptools==69.5.1
+
+transformers[torch]
+infer_rvc_python
+
+torch
+torchvision
+torchaudio
+
+edge_tts
