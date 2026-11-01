@@ -17,7 +17,7 @@ import subprocess
 from infer_rvc_python import BaseLoader
 
 
-def normalize_loudness(input_path: str, output_path: str):
+def normalize_loudness(input_path: str, output_path: str, parI:str):
     """
     Extracts audio from video, applies EBU R128 
     loudness normalization, and saves as WAV/MP4.
@@ -32,7 +32,7 @@ def normalize_loudness(input_path: str, output_path: str):
             "-y",
             "-i", input_path,
             "-vn",                                  # Drop video stream
-            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
+            "-af", f"loudnorm=I=-{parI}:TP=-1.5:LRA=11",
             "-c:a", "pcm_s16le",                    # Uncompressed 16-bit WAV
             "-ar", "44100",
             output_path
@@ -42,7 +42,7 @@ def normalize_loudness(input_path: str, output_path: str):
             "ffmpeg",
             "-y",
             "-i", input_path,
-            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
+            "-af", f"loudnorm=I=-{parI}:TP=-1.5:LRA=11",
             "-c:v", "copy",
             output_path
         ]
@@ -157,10 +157,9 @@ if __name__ == "__main__":
 
     SOURCE_MP4    = "input.mp4"
     SOURCE_WAV    = "dialogue.wav"
-
-    normalize_loudness(SOURCE_MP4, SOURCE_WAV)
-
     MODEL_FOLDER  = "voimodels"
-    MODEL_NAME    = "model_donald3"
 
-    run_simple_rvc(source_file=SOURCE_WAV, model_name=MODEL_NAME, model_folder=MODEL_FOLDER)
+    normalize_loudness(SOURCE_MP4, SOURCE_WAV, parI=14)
+
+    MODEL_NAME = "model_donald3"
+    run_simple_rvc(source_file=SOURCE_WAV, model_name=MODEL_NAME, model_folder=MODEL_FOLDER)        
