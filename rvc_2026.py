@@ -99,7 +99,7 @@ def run_modern_rvc_pipeline(source_wav, model_pth, index_file, model_folder, out
 
     model_pth = os.path.join(model_folder, model_pth)
     index_file = os.path.join(model_folder, index_file)
-    index_file = index_file if os.path.isfile(MODEL_INDEX) else ""
+    index_file = index_file if os.path.isfile(model_folder) else ""
     
     converter.apply_conf(
         tag         = tag,
@@ -135,25 +135,32 @@ def run_modern_rvc_pipeline(source_wav, model_pth, index_file, model_folder, out
             print(f"Saved as: {output_wav}")
 
 
+def run_simple_rvc(source_file, model_name, model_folder):
+
+    MODEL_WEIGHTS = f"{model_name}.pth"
+    MODEL_INDEX   = f"{model_name}.index"
+    MODEL_TAG     = f"{model_name}_voice"
+    OUTPUT        = f"{model_name}_output.wav"
+
+    run_modern_rvc_pipeline(
+        source_wav   = source_file,
+        model_pth    = MODEL_WEIGHTS,
+        index_file   = MODEL_INDEX,
+        model_folder = model_folder,
+        output_wav   = OUTPUT,
+        tag          = MODEL_TAG
+    )    
+    
+
+
 if __name__ == "__main__":
 
-    SOURCE_MP4       = "input.mp4"
-    SOURCE_WAV       = "dialogue.wav"
+    SOURCE_MP4    = "input.mp4"
+    SOURCE_WAV    = "dialogue.wav"
 
     normalize_loudness(SOURCE_MP4, SOURCE_WAV)
 
     MODEL_FOLDER  = "voimodels"
     MODEL_NAME    = "model_donald3"
-    MODEL_WEIGHTS = f"{MODEL_NAME}.pth"
-    MODEL_INDEX   = f"{MODEL_NAME}.index"
-    MODEL_TAG     = f"{MODEL_NAME}_voice"
-    OUTPUT        = f"{MODEL_NAME}_output.wav"
 
-    run_modern_rvc_pipeline(
-        source_wav   = SOURCE_WAV,
-        model_pth    = MODEL_WEIGHTS,
-        index_file   = MODEL_INDEX,
-        model_folder = MODEL_FOLDER,
-        output_wav   = OUTPUT,
-        tag          = MODEL_TAG
-    )
+    run_simple_rvc(source_file=SOURCE_WAV, model_name=MODEL_NAME, model_folder=MODEL_FOLDER)
