@@ -14,7 +14,14 @@
 
 import os
 import subprocess
-from infer_rvc_python import BaseLoader
+
+try: 
+    from infer_rvc_python import BaseLoader
+except:
+    # 84.2.1
+    import setuptools
+    print(setuptools.__version__)
+    exit()
 
 
 def normalize_loudness(input_path: str, output_path: str, parI:str):
@@ -135,7 +142,7 @@ def run_modern_rvc_pipeline(source_wav, model_pth, index_file, model_folder, out
             print(f"Saved as: {output_wav}")
 
 
-def run_simple_rvc(source_file, model_name, model_folder):
+def run_simple_rvc(source_file, model_name, model_folder, quality="natural"):
 
     MODEL_WEIGHTS = f"{model_name}.pth"
     MODEL_INDEX   = f"{model_name}.index"
@@ -148,7 +155,8 @@ def run_simple_rvc(source_file, model_name, model_folder):
         index_file   = MODEL_INDEX,
         model_folder = model_folder,
         output_wav   = OUTPUT,
-        tag          = MODEL_TAG
+        tag          = MODEL_TAG,
+        quality      = quality
     )    
     
 
@@ -161,5 +169,5 @@ if __name__ == "__main__":
 
     normalize_loudness(SOURCE_MP4, SOURCE_WAV, parI=14)
 
-    MODEL_NAME = "model_donald3"
-    run_simple_rvc(source_file=SOURCE_WAV, model_name=MODEL_NAME, model_folder=MODEL_FOLDER)        
+    MODEL_NAME = "model_donald1"
+    run_simple_rvc(source_file=SOURCE_WAV, model_name=MODEL_NAME, model_folder=MODEL_FOLDER, quality="similar")        

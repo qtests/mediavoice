@@ -148,7 +148,7 @@ if __name__ == "__main__":
     ANIME_MODEL_PATH = MODELS_DIR / "realesr-animevideov3.pth"   
 
 
-    TARGET_SCALE = "4k"                                   # "1080p", "4k", Converts 480p (854x480) -> 1080p (1920x1080)
+    TARGET_SCALE = "1080p"                                # "1080p", "4k", Converts 480p (854x480) -> 1080p (1920x1080)
     INPUT_CLIP   = "input.mp4"                            # Your stitched cartoon clip
     OUTPUT_CLIP  = f"output_upscaled_{TARGET_SCALE}.mp4"
 
